@@ -94,5 +94,9 @@ char				*ft_intarrjoin(int *arr, size_t len, int del);
 int					get_next_line(const int fd, char **line);
 int		            ft_sqrt(int nb);
 int                 ft_fromBiStringToInteger(char *str);
+char	            *ft_strtrimchr(char const *s, int c);
+int                 ft_min(int a, int b);
+int                 ft_max(int a, int b);
+char	            *ft_strtrimchrCond(char const *s, int c, int left, int right);
 
 #endif
