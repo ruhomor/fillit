@@ -15,16 +15,18 @@
 
 # include "libft/libft.h"
 
-typedef struct          s_tetramino {
-    char                *base[4];
-    int                 min_size;
-    struct s_tetramino  *next;
-    struct s_tetramino  *prev;
-    int                 order;
-    int                 pos;
-}                       t_tetramino;
+typedef struct	s_tetramino
+{
+	char		*base[4];
+	int			min_size;
+	struct		s_tetramino *next;
+	struct		s_tetramino *prev;
+	int			order;
+	int			pos;
+}				t_tetramino;
 
-t_tetramino *ft_tetramino(int code);
-void    fillit(int fd);
+t_tetramino		*ft_tetramino(int code);
+
+void			fillit(int fd);
 
 #endif
