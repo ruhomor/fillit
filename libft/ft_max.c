@@ -6,13 +6,13 @@
 /*   By: sslift <sslift@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 20:33:54 by sslift            #+#    #+#             */
-/*   Updated: 2020/02/17 20:33:54 by sslift           ###   ########.fr       */
+/*   Updated: 2020/02/17 20:50:21 by kachiote         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_max(int a, int b)
+int	ft_max(int a, int b)
 {
 	if (a > b)
 		return (a);

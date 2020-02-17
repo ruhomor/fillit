@@ -6,7 +6,7 @@
 /*   By: sslift <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 16:57:04 by sslift            #+#    #+#             */
-/*   Updated: 2020/01/13 18:36:29 by sslift           ###   ########.fr       */
+/*   Updated: 2020/02/17 20:57:21 by kachiote         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ t_list				*ft_lstat(t_list *lst, size_t n);
 char				*ft_arrjoin(char **arr, size_t len, int del);
 char				*ft_intarrjoin(int *arr, size_t len, int del);
 int					get_next_line(const int fd, char **line);
-int		            ft_sqrt(int nb);
-int                 ft_fromBiStringToInteger(char *str);
-char	            *ft_strtrimchr(char const *s, int c);
-int                 ft_min(int a, int b);
-int                 ft_max(int a, int b);
-char	            *ft_strtrimchrCond(char const *s, int c, int left, int right);
+int					ft_sqrt(int nb);
+int					ft_fromBiStringToInteger(char *str);
+char				*ft_strtrimchr(char const *s, int c);
+int					ft_min(int a, int b);
+int					ft_max(int a, int b);
+char				*ft_strtrimchrCond(char const *s, int c, int left, int right);
 
 #endif
