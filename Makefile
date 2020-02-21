@@ -6,7 +6,7 @@
 #    By: kachiote <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/21 20:18:27 by kachiote          #+#    #+#              #
-#    Updated: 2020/02/21 20:33:06 by kachiote         ###   ########.fr        #
+#    Updated: 2020/02/21 20:48:45 by kachiote         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,13 +33,15 @@ all: $(NAME)
 
 $(NAME):
 	@make -C $(LIB)
-	gcc $(FLAGS) -o $(NAME) $(SRCS) -I $(INCL) -L. libft/libft.a
+	@gcc $(FLAGS) -o $(NAME) $(SRCS) -I $(INCL) -L. libft/libft.a
 
 clean:
 	@rm -f $(OUT)
+	@make -C $(LIB) clean
 
 fclean: clean
 	@rm -f $(NAME)
+	@make -C $(LIB) fclean
 
 re: fclean all
 
