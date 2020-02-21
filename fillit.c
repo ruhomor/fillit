@@ -6,7 +6,7 @@
 /*   By: sslift <sslift@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 20:35:57 by sslift            #+#    #+#             */
-/*   Updated: 2020/02/21 21:10:24 by kachiote         ###   ########.fr       */
+/*   Updated: 2020/02/21 22:09:28 by sslift           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void ft_if_error()
 {
-	ft_putstr_fd("error\n", 2);
+	ft_putstr_fd("error\n", 1);
 	exit (0);
 }
 
@@ -263,6 +263,8 @@ void fillit(int fd)
 			code = ft_strcat(code, ft_strdup("0"));
 		}
 	}
+	if (tetra->min_size == -5)
+		ft_if_error();
 
 	//search minimum map size
 	tetra = ft_tetraBase(tetra);
