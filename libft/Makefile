@@ -10,6 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
 
+CC = gcc
+
+CFLAGS = -Wall -Werror -Wextra
+
 NAME = libft.a
 
 SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c ft_memchr.c ft_memcmp.c ft_strlen.c\
@@ -23,8 +27,10 @@ ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_lstnew.c ft_lst
 ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_lstaddback.c ft_lstsize.c ft_lstat.c \
 ft_arrjoin.c ft_intarrjoin.c ft_sqrt.c ft_fromBiStringToInteger.c ft_strtrimchr.c ft_min.c \
 ft_max.c get_next_line.c ft_strtrimchrCond.c
+
 SRC_O = $(SRC:.c=.o)
-HEADER = libft.h get_next_line.h
+
+HEADER = ./
 
 all: $(NAME)
 
@@ -33,7 +39,7 @@ $(NAME): $(SRC_O)
 	@ranlib $(NAME)
 
 %.o: %.c
-	@gcc -Wall -Wextra -Werror -c $< -I $(HEADER)
+	@$(CC) $(CFLAGS) -c $< -I $(HEADER)
 
 clean:
 	@/bin/rm -f *.o *.gch

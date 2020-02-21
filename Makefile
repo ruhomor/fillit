@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+CC = gcc
+
 NAME = fillit
 
 CFILES = tetraminos \
@@ -22,18 +24,18 @@ OUT = $(patsubst %, %.o, $(CFILES))
 
 INCL = ./
 
-FLAGS = -Werror -Wall -Wextra
+CFLAGS = -Werror -Wall -Wextra
 
 LIB = ./libft
 
 all: $(NAME)
 
 %.o:%.c -I$(INCL)
-	@gcc $(FLAGS) $(INCL) $< -o $@
+	@$(CC) $(CFLAGS) $(INCL) $< -o $@
 
 $(NAME):
 	@make -C $(LIB)
-	@gcc $(FLAGS) -o $(NAME) $(SRCS) -I $(INCL) -L. libft/libft.a
+	@$(CC) $(CFLAGS) -o $(NAME) $(SRCS) -I $(INCL) -L. libft/libft.a
 
 clean:
 	@rm -f $(OUT)
