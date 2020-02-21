@@ -6,11 +6,17 @@
 /*   By: sslift <sslift@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 20:35:57 by sslift            #+#    #+#             */
-/*   Updated: 2020/02/17 20:35:57 by sslift           ###   ########.fr       */
+/*   Updated: 2020/02/21 21:10:24 by kachiote         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+void ft_if_error()
+{
+	ft_putstr_fd("error\n", 2);
+	exit (0);
+}
 
 char *ft_code(char *str)
 {
