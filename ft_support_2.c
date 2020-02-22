@@ -6,7 +6,7 @@
 /*   By: sslift <sslift@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 16:33:52 by sslift            #+#    #+#             */
-/*   Updated: 2020/02/22 16:41:50 by sslift           ###   ########.fr       */
+/*   Updated: 2020/02/22 16:42:47 by sslift           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	ft_filloutputmap(t_tetramino *tetra, char **map, int size)
 				*(*map + tetra->pos + i) = c;
 		}
 		tetra = tetra->next;
+		free(line);
 	}
 	i = 0;
 	while (i < ft_strlen(*map))
