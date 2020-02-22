@@ -6,165 +6,11 @@
 /*   By: sslift <sslift@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 20:35:57 by sslift            #+#    #+#             */
-/*   Updated: 2020/02/22 16:04:05 by sslift           ###   ########.fr       */
+/*   Updated: 2020/02/22 16:35:52 by sslift           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-
-void ft_if_error()
-{
-	ft_putstr_fd("error\n", 1);
-	exit (0);
-}
-
-char *ft_code(char *str)
-{
-	int i;
-	char *code;
-
-	i = 0;
-	code = ft_strnew(ft_strlen(str));
-	while (*(str + i) != '\0')
-	{
-		if (*(str + i) == '.')
-			*(code + i) = '0';
-		else if (*(str + i) == '#')
-			*(code + i) = '1';
-		else
-			*(code + i) = *(str + i);
-		i++;
-	}
-	return (code);
-}
-
-t_tetramino *ft_tetraBase(t_tetramino *tetra)
-{
-	while (tetra->order != 1)
-		tetra = tetra->prev;
-	return (tetra);
-}
-
-char *ft_padding(const char *line, int size)
-{
-	char *str;
-	size_t len;
-	size_t i;
-
-	str = ft_strnew(size + 1);
-	len = ft_strlen(line);
-	i = 0;
-	while (i < len)
-	{
-		*(str + i) = *(line + i);
-		i++;
-	}
-	while (i < (size_t) size + 1)
-	{
-		*(str + i) = '0';
-		i++;
-	}
-	return (str);
-}
-
-char *ft_makeline(t_tetramino *tetra, int size)
-{
-	char *line;
-
-	line = ft_strnew(4 * (size + 1));
-	line = ft_strcat(line, ft_padding(tetra->base[0], size));
-	line = ft_strcat(line, ft_padding(tetra->base[1], size));
-	line = ft_strcat(line, ft_padding(tetra->base[2], size));
-	line = ft_strcat(line, ft_padding(tetra->base[3], size));
-	line = ft_strtrimchrCond(line, '0', 0, 1);
-	return (line);
-}
-
-int ft_check(char *map, char *line, int pos)
-{
-	size_t i;
-
-	i = 0;
-	while (i < ft_strlen(line))
-	{
-		if (*(line + i) == '1')
-		{
-			if (*(map + pos + i) != '0')
-				return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-void ft_fillOutputMap(t_tetramino *tetra, char **map, int size)
-{
-	char *line;
-	size_t i;
-	char c;
-
-	while (tetra)
-	{
-		line = ft_makeline(tetra, size);
-		i = 0;
-		c = tetra->order + 'A' - 1;
-		while (i < ft_strlen(line))
-		{
-			if (*(line + i) == '1')
-				*(*map + tetra->pos + i) = c;
-			i++;
-		}
-		tetra = tetra->next;
-	}
-	i = 0;
-	while (i < ft_strlen(*map))
-	{
-		if (*(*map + i) == '0')
-			*(*map + i) = '.';
-		else if (*(*map + i) == '1')
-			*(*map + i) = '\n';
-		i++;
-	}
-}
-
-void ft_fillmap(char *line, char **map, int pos)
-{
-	size_t i;
-
-	i = 0;
-	while (i < ft_strlen(line))
-	{
-		if (*(line + i) == '1')
-			*(*map + pos + i) = '1';
-		i++;
-	}
-}
-
-void ft_unfillmap(char *line, char **map, int pos)
-{
-	size_t i;
-
-	i = 0;
-	while (i < ft_strlen(line))
-	{
-		if (*(line + i) == '1')
-			*(*map + pos + i) = '0';
-		i++;
-	}
-}
-
-int ft_size(t_tetramino *tetra)
-{
-	int i;
-
-	i = 0;
-	while (tetra)
-	{
-		i++;
-		tetra = tetra->next;
-	}
-	return (i);
-}
 
 int ft_mainsearch(t_tetramino *tetra, char **map, int size)
 {
@@ -249,11 +95,11 @@ void fillit(int fd)
 				code = ft_strtrimchr(code, '0');
 				if (!tetra)
 				{
-					tetra = ft_tetramino(ft_fromBiStringToInteger(code));
+					tetra = ft_tetramino(ft_frombistringtointeger(code));
 					tetra->order = 1;
 				} else
 				{
-					tetra->next = ft_tetramino(ft_fromBiStringToInteger(code));
+					tetra->next = ft_tetramino(ft_frombistringtointeger(code));
 					tmp = tetra;
 					tetra = tetra->next;
 					tetra->prev = tmp;
@@ -276,7 +122,7 @@ void fillit(int fd)
 			ft_if_error();
 	}
 
-	tetra = ft_tetraBase(tetra);
+	tetra = ft_tetrabase(tetra);
 	size = 1;
 	size = ft_max(size, tetra->min_size);
 	while (tetra->next)
@@ -287,7 +133,7 @@ void fillit(int fd)
 	size = ft_max(size, ft_sqrt(n * 4));
 
 	char *map;
-	tetra = ft_tetraBase(tetra);
+	tetra = ft_tetrabase(tetra);
 	while (1)
 	{
 		map = ft_makemap(size);
@@ -298,6 +144,6 @@ void fillit(int fd)
 	}
 
 	map = ft_makemap(size);
-	ft_fillOutputMap(tetra, &map, size);
+	ft_filloutputmap(tetra, &map, size);
 	ft_putstr(map);
 }

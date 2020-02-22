@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_fromBiStringToInteger(char *str)
+int ft_frombistringtointeger(char *str)
 {
 	int total;
 

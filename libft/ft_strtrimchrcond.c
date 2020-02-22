@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-char		*ft_strtrimchrCond(char const *s, int c, int left, int right)
+char		*ft_strtrimchrcond(char const *s, int c, int left, int right)
 {
 	size_t	start;
 	size_t	finish;

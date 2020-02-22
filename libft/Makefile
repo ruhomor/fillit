@@ -6,7 +6,7 @@
 #    By: sslift <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/09 17:12:40 by sslift            #+#    #+#              #
-#    Updated: 2020/02/21 21:27:19 by sslift           ###   ########.fr        #
+#    Updated: 2020/02/22 16:13:14 by sslift           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,8 @@ ft_striteri.c ft_strmap.c ft_strmapi.c ft_strequ.c ft_strnequ.c ft_strsub.c ft_s
 ft_strtrim.c ft_strsplit.c ft_itoa.c ft_putchar.c ft_putstr.c ft_putendl.c ft_putnbr.c \
 ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_lstnew.c ft_lstdelone.c \
 ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_lstaddback.c ft_lstsize.c ft_lstat.c \
-ft_arrjoin.c ft_intarrjoin.c ft_sqrt.c ft_fromBiStringToInteger.c ft_strtrimchr.c ft_min.c \
-ft_max.c get_next_line.c ft_strtrimchrCond.c
+ft_arrjoin.c ft_intarrjoin.c ft_sqrt.c ft_frombistringtointeger.c ft_strtrimchr.c ft_min.c \
+ft_max.c get_next_line.c ft_strtrimchrcond.c
 
 SRC_O = $(SRC:.c=.o)
 
