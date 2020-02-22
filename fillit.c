@@ -6,7 +6,7 @@
 /*   By: sslift <sslift@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 20:35:57 by sslift            #+#    #+#             */
-/*   Updated: 2020/02/21 22:09:28 by sslift           ###   ########.fr       */
+/*   Updated: 2020/02/22 16:04:05 by sslift           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ char *ft_makeline(t_tetramino *tetra, int size)
 	line = ft_strcat(line, ft_padding(tetra->base[2], size));
 	line = ft_strcat(line, ft_padding(tetra->base[3], size));
 	line = ft_strtrimchrCond(line, '0', 0, 1);
-	//line = ft_strcat(line, ft_strdup("0"));
 	return (line);
 }
 
@@ -174,18 +173,14 @@ int ft_mainsearch(t_tetramino *tetra, char **map, int size)
 	if (!tetra)
 		return (1);
 	line = ft_makeline(tetra, size);
-	//printf("line %s\n", line);
 	while (1)
 	{
 		tetra->pos++;
-		//printf("jj %d order= %d\n", tetra->pos, tetra->order);
 		if (tetra->pos + ft_strlen(line) > ft_strlen(*map))
 			return (0);
-		//printf("check %d\n", ft_check(*map, line, tetra->pos));
 		if (ft_check(*map, line, tetra->pos))
 		{
 			ft_fillmap(line, map, tetra->pos);
-			//printf("fill %s\n", *map);
 			if (!ft_mainsearch(tetra->next, map, size))
 			{
 				ft_unfillmap(line, map, tetra->pos);
@@ -228,47 +223,60 @@ void fillit(int fd)
 	t_tetramino *tmp;
 	int n;
 	int j;
+	int gnl;
 	int size;
 
 	code = ft_strnew(20);
 	n = 0;
 	j = 0;
-	while (get_next_line(fd, &line) || j == 4)
+	while (1)
 	{
-		//printf("line %s\n", line);
-		if (ft_strlen(line) == 0 || j == 4)
+		if ((gnl = get_next_line(fd, &line)) >= 0)
 		{
-			j = 0;
-			n++;
-			code = ft_code(code);
-			code = ft_strtrimchr(code, '0');
-			if (!tetra)
+			if (j < 4)
 			{
-				tetra = ft_tetramino(ft_fromBiStringToInteger(code));
-				tetra->order = 1;
-			} else
+				code = ft_strcat(code, line);
+				if (ft_strlen(line) != 4)
+					ft_if_error();
+				code = ft_strcat(code, ft_strdup("0"));
+				j++;
+				if (gnl == 0)
+					ft_if_error();
+			} else if (j == 4)
 			{
-				tetra->next = ft_tetramino(ft_fromBiStringToInteger(code));
-				tmp = tetra;
-				tetra = tetra->next;
-				tetra->prev = tmp;
-				tetra->order = tetra->prev->order + 1;
+				n++;
+				code = ft_code(code);
+				code = ft_strtrimchr(code, '0');
+				if (!tetra)
+				{
+					tetra = ft_tetramino(ft_fromBiStringToInteger(code));
+					tetra->order = 1;
+				} else
+				{
+					tetra->next = ft_tetramino(ft_fromBiStringToInteger(code));
+					tmp = tetra;
+					tetra = tetra->next;
+					tetra->prev = tmp;
+					tetra->order = tetra->prev->order + 1;
+				}
+				free(code);
+				if (tetra->min_size == -5)
+					ft_if_error();
+				code = ft_strnew(20);
+				if (gnl > 0)
+				{
+					j = 0;
+					if (ft_strcmp(line, "") != 0 || gnl <= 0)
+						ft_if_error();
+				} else
+					break ;
 			}
-			free(code);
-			code = ft_strnew(20);
-		} else
-		{
-			j++;
-			code = ft_strcat(code, line);
-			code = ft_strcat(code, ft_strdup("0"));
-		}
-	}
-	if (tetra->min_size == -5)
-		ft_if_error();
 
-	//search minimum map size
+		} else if (gnl < 0)
+			ft_if_error();
+	}
+
 	tetra = ft_tetraBase(tetra);
-	//printf("Size %d\n", ft_size(tetra));
 	size = 1;
 	size = ft_max(size, tetra->min_size);
 	while (tetra->next)
@@ -278,20 +286,17 @@ void fillit(int fd)
 	}
 	size = ft_max(size, ft_sqrt(n * 4));
 
-	//to main search
 	char *map;
 	tetra = ft_tetraBase(tetra);
 	while (1)
 	{
 		map = ft_makemap(size);
-		//printf("Suka %s\n", map);
 		if (ft_mainsearch(tetra, &map, size))
 			break;
 		tetra->pos = -1;
 		size++;
 	}
 
-	//output
 	map = ft_makemap(size);
 	ft_fillOutputMap(tetra, &map, size);
 	ft_putstr(map);

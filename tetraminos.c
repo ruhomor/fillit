@@ -90,7 +90,7 @@ t_tetramino		check3(int code)
 	return (tetramino);
 }
 
-t_tetramino	*ft_tetramino(int code)
+t_tetramino		*ft_tetramino(int code)
 {
 	t_tetramino *tetramino;
 
