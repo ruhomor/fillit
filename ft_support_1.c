@@ -6,7 +6,7 @@
 /*   By: sslift <sslift@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 16:22:13 by sslift            #+#    #+#             */
-/*   Updated: 2020/02/22 16:36:19 by sslift           ###   ########.fr       */
+/*   Updated: 2020/02/22 17:46:41 by sslift           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,23 @@ char		*ft_padding(const char *line, int size)
 char		*ft_makeline(t_tetramino *tetra, int size)
 {
 	char *line;
+	char *tmp;
 
 	line = ft_strnew(4 * (size + 1));
-	line = ft_strcat(line, ft_padding(tetra->base[0], size));
-	line = ft_strcat(line, ft_padding(tetra->base[1], size));
-	line = ft_strcat(line, ft_padding(tetra->base[2], size));
-	line = ft_strcat(line, ft_padding(tetra->base[3], size));
+	tmp = ft_padding(tetra->base[0], size);
+	line = ft_strcat(line, tmp);
+	free(tmp);
+	tmp = ft_padding(tetra->base[1], size);
+	line = ft_strcat(line, tmp);
+	free(tmp);
+	tmp = ft_padding(tetra->base[2], size);
+	line = ft_strcat(line, tmp);
+	free(tmp);
+	tmp = ft_padding(tetra->base[3], size);
+	line = ft_strcat(line, tmp);
+	free(tmp);
+	tmp = line;
 	line = ft_strtrimchrcond(line, '0', 0, 1);
+	free(tmp);
 	return (line);
 }

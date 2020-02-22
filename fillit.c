@@ -6,7 +6,7 @@
 /*   By: sslift <sslift@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 20:35:57 by sslift            #+#    #+#             */
-/*   Updated: 2020/02/22 17:24:35 by sslift           ###   ########.fr       */
+/*   Updated: 2020/02/22 18:12:00 by sslift           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void fillit(int fd)
 {
 	char *line;
 	char *code;
+	char *t;
 	t_tetramino *tetra;
 	t_tetramino *tmp;
 	int n;
@@ -76,6 +77,7 @@ void fillit(int fd)
 	int size;
 
 	code = ft_strnew(20);
+	t = code;
 	n = 0;
 	j = 0;
 	while (1)
@@ -144,10 +146,12 @@ void fillit(int fd)
 			break;
 		tetra->pos = -1;
 		size++;
+		free(map);
 	}
 
 	free(map);
 	map = ft_makemap(size);
 	ft_filloutputmap(tetra, &map, size);
 	ft_putstr(map);
+	free(map);
 }

@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/sslift/Desktop/fillit/fillit.h
+libft/libft.h
+/Users/sslift/Desktop/fillit/libft/libft.h
+
+/Users/sslift/Desktop/fillit/libft/get_next_line.h
+libft.h
+/Users/sslift/Desktop/fillit/libft/libft.h
+unistd.h
+-
+sys/types.h
+-
+sys/stat.h
+-
+fcntl.h
+-
+stdlib.h
+-
+stdio.h
+-
+
+/Users/sslift/Desktop/fillit/libft/libft.h
+stdlib.h
+-
+string.h
+-
+unistd.h
+-
+stdio.h
+-
+get_next_line.h
+/Users/sslift/Desktop/fillit/libft/get_next_line.h
+
+/Users/sslift/Desktop/fillit/main.c
+fillit.h
+/Users/sslift/Desktop/fillit/fillit.h
+

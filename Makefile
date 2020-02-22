@@ -6,9 +6,11 @@
 #    By: kachiote <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/21 20:18:27 by kachiote          #+#    #+#              #
-#    Updated: 2020/02/22 16:31:12 by sslift           ###   ########.fr        #
+#    Updated: 2020/02/22 18:16:25 by sslift           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+CC = gcc
 
 NAME = fillit
 
@@ -31,11 +33,11 @@ LIB = ./libft
 all: $(NAME)
 
 %.o:%.c -I$(INCL)
-	@gcc $(FLAGS) $(INCL) $< -o $@
+	@$(CC) $(FLAGS) $(INCL) $< -o $@
 
 $(NAME):
 	@make -C $(LIB)
-	@gcc $(FLAGS) -o $(NAME) $(SRCS) -I $(INCL) -L. libft/libft.a
+	@$(CC) $(FLAGS) -o $(NAME) $(SRCS) -I $(INCL) -L. libft/libft.a
 
 clean:
 	@rm -f $(OUT)

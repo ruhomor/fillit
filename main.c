@@ -19,6 +19,7 @@ int main(int argc, char **argv)
 		return (0);
 	}
 	int fd;
-	fd = open(argv[1], O_RDONLY);
+	//fd = open(argv[1], O_RDONLY);
+	fd = open("test02", O_RDONLY);
 	fillit(fd);
 }
