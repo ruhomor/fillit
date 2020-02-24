@@ -84,16 +84,3 @@ void	ft_unfillmap(char *line, char **map, int pos)
 		i++;
 	}
 }
-
-int		ft_size(t_tetramino *tetra)
-{
-	int i;
-
-	i = 0;
-	while (tetra)
-	{
-		i++;
-		tetra = tetra->next;
-	}
-	return (i);
-}

@@ -35,8 +35,10 @@ int ft_mainsearch(t_tetramino *tetra, char **map, int size)
 				ft_unfillmap(line, map, tetra->pos);
 				tetra->next->pos = -1;
 				continue;
-			} else
-				return (1);
+			} else {
+			    free(line);
+			    return (1);
+			}
 		}
 	}
 }
@@ -63,14 +65,26 @@ char *ft_makemap(int size)
 	return (map);
 }
 
+void    ft_clean_all(t_tetramino *tetra)
+{
+    t_tetramino *tmp;
+
+    tetra = ft_tetrabase(tetra);
+    while (tetra)
+    {
+        tmp = tetra;
+        tetra = tetra->next;
+        free(tmp);
+    }
+}
 
 void fillit(int fd)
 {
 	char *line;
 	char *code;
 	char *t;
-	t_tetramino *tetra;
-	t_tetramino *tmp;
+	t_tetramino *tetra = NULL;
+	t_tetramino *tmp = NULL;
 	int n;
 	int j;
 	int gnl;
@@ -86,31 +100,37 @@ void fillit(int fd)
 		{
 			if (j < 4)
 			{
+
 				code = ft_strcat(code, line);
 				if (ft_strlen(line) != 4)
 					ft_if_error();
-				code = ft_strcat(code, ft_strdup("0"));
+				code = ft_strcat(code, "0");
 				j++;
 				if (gnl == 0)
 					ft_if_error();
 			} else if (j == 4)
 			{
 				n++;
+				t = code;
 				code = ft_code(code);
+				free(t);
+				t = code;
 				code = ft_strtrimchr(code, '0');
+				free(t);
 				if (!tetra)
 				{
 					tetra = ft_tetramino(ft_frombistringtointeger(code));
+					free(code);
 					tetra->order = 1;
 				} else
 				{
 					tetra->next = ft_tetramino(ft_frombistringtointeger(code));
+					free(code);
 					tmp = tetra;
 					tetra = tetra->next;
 					tetra->prev = tmp;
 					tetra->order = tetra->prev->order + 1;
 				}
-				free(code);
 				if (tetra->min_size == -5)
 					ft_if_error();
 				code = ft_strnew(20);
@@ -122,10 +142,12 @@ void fillit(int fd)
 				} else
 					break ;
 			}
-
+            free(line);
 		} else if (gnl < 0)
 			ft_if_error();
 	}
+	free(line);
+	free(code);
 
 	tetra = ft_tetrabase(tetra);
 	size = 1;
@@ -154,4 +176,5 @@ void fillit(int fd)
 	ft_filloutputmap(tetra, &map, size);
 	ft_putstr(map);
 	free(map);
+	ft_clean_all(tetra);
 }

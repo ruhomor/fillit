@@ -13,26 +13,25 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 42
-# define FD_MAX 10000
-
+# define BUFF_SIZE 64
 # include "libft.h"
-# include <unistd.h>
-# include <sys/types.h>
-# include <sys/stat.h>
 # include <fcntl.h>
-# include <stdlib.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-typedef struct		s_file
+
+typedef struct		s_ldb
 {
-	int				fd;
-	char			*rest;
-	struct s_file	*next;
-	struct s_file	*prev;
-	int				base;
-}					t_file;
+    int				fd;
+    char			*cut;
+    struct s_ldb	*next;
+}					t_ldb;
 
-int					get_next_line(const int fd, char **line);
+t_ldb		*create_db(const int fd);
+char		*search_n(char **n, char *cut);
+int		readline(const int fd, char **line, char *cut);
+t_ldb		*search_db(t_ldb *db, const int fd);
+int		get_next_line(const int fd, char **line);
 
 #endif

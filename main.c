@@ -14,12 +14,12 @@
 
 int main(int argc, char **argv)
 {
-	if (argc < 0)
-	{
-		return (0);
-	}
-	int fd;
-	//fd = open(argv[1], O_RDONLY);
-	fd = open("test02", O_RDONLY);
+	if (argc < 0 && !argv)
+	    return (0);
+	int fd = 0;
+	fd = open(argv[1], O_RDONLY);
+	//fd = open("test02", O_RDONLY);
+	//printf("Suka");
 	fillit(fd);
+	return (0);
 }

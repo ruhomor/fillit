@@ -12,102 +12,85 @@
 
 #include "get_next_line.h"
 
-int		ft_length(t_file *files)
+t_ldb		*create_db(const int fd)
 {
-	char	*tmp;
-	int		i;
+    t_ldb	*db;
 
-	if (!(tmp = ft_strchr(files->rest, '\n')))
-		i = ft_strlen(files->rest);
-	else
-		i = tmp - files->rest;
-	return (i);
+    if (!(db = (t_ldb*)malloc(sizeof(t_ldb))))
+        return (NULL);
+    db->fd = fd;
+    db->cut = ft_strnew(BUFF_SIZE);
+    db->next = NULL;
+    return(db);
 }
 
-int		ft_readline(const int fd, char **line, t_file *files)
+char		*search_n(char **n, char *cut)
 {
-	int		check;
-	char	*str;
+    char	*str;
 
-	str = files->rest;
-	files->rest = ft_strsub(files->rest, ft_length(files) + 1,
-			ft_strlen(files->rest));
-	ft_strclr(str);
-	free(str);
-	while ((check = read(fd, *line, BUFF_SIZE)) && (check != -1))
-	{
-		(*line)[check] = '\0';
-		str = files->rest;
-		files->rest = ft_strjoin(files->rest, *line);
-		ft_strclr(str);
-		free(str);
-		if (ft_strchr(*line, '\n'))
-			break ;
-	}
-	return (check);
+    if ((*n = ft_strchr(cut, '\n')) != NULL)
+    {
+        str = ft_strsub(cut, 0, *n - cut);
+        ft_strcpy(cut, ++(*n));
+    }
+    else
+    {
+        str = ft_strnew(ft_strlen(cut) + 1);
+        ft_strcat(str, cut);
+        ft_strclr(cut);
+    }
+    return (str);
 }
 
-t_file	*ft_newfile(t_file *files, const int fd)
+int			readline(const int fd, char **line, char *cut)
 {
-	t_file *newfile;
+    char			buf[BUFF_SIZE + 1];
+    char			*n;
+    char			*tmp;
+    int			bytes;
 
-	newfile = (t_file *)malloc(sizeof(t_file));
-	newfile->fd = fd;
-	newfile->rest = ft_strnew(0);
-	newfile->next = NULL;
-	newfile->prev = files;
-	newfile->base = (files->base + 1);
-	files = newfile;
-	return (files);
+    n = NULL;
+    bytes = 1;
+    *line = search_n(&n, cut);
+    while ((!n) && ((bytes = read(fd, buf, BUFF_SIZE)) != 0))
+    {
+        buf[bytes] = '\0';
+        if ((n = ft_strchr(buf, '\n')) != NULL)
+        {
+            ft_strcpy(cut, ++n);
+            ft_strclr(--n);
+        }
+        tmp = *line;
+        if (!(*line = ft_strjoin(tmp, buf)) || bytes < 0)
+            return (-1);
+        ft_strdel(&tmp);
+    }
+    if (ft_strlen(cut) || ft_strlen(*line) || bytes)
+        return (1);
+    return (0);
 }
 
-t_file	*ft_filebase(t_file *files)
+t_ldb			*search_db(t_ldb *db, const int fd)
 {
-	t_file	*filebase;
+    t_ldb	*data;
 
-	if (!files)
-	{
-		filebase = (t_file *)malloc(sizeof(t_file));
-		filebase->next = NULL;
-		filebase->prev = NULL;
-		filebase->base = 0;
-		filebase->rest = ft_strnew(0);
-		filebase->fd = -1;
-		files = filebase;
-	}
-	else
-	{
-		while (files->base != 0)
-			files = files->prev;
-	}
-	return (files);
+    data = db;
+    while (data->fd != fd)
+    {
+        if (data->next == NULL)
+            data->next = create_db(fd);
+        data = data->next;
+    }
+    return(data);
 }
 
-int		get_next_line(const int fd, char **line)
+int			get_next_line(const int fd, char **line)
 {
-	static t_file	*files;
-	int				check;
-	char			*str;
+    static t_ldb	*db;
 
-	files = ft_filebase(files);
-	if (!line || !(*line = ft_strnew(BUFF_SIZE)) ||
-		(fd < 0) || (fd > FD_MAX) || (BUFF_SIZE < 1))
-		return (-1);
-	while (files->next)
-	{
-		if (files->next->fd == fd)
-			break ;
-		files = files->next;
-	}
-	if (!files->next)
-		files->next = ft_newfile(files, fd);
-	files = files->next;
-	if ((check = ft_readline(fd, line, files)) == -1)
-		return (-1);
-	str = *line;
-	*line = ft_strsub(files->rest, 0, ft_length(files));
-	ft_strclr(str);
-	if (!((files->rest)[0]) && !(check))
-		return (0);
-	return (1);
+    if ((fd < 0) || (!(line)))
+        return (-1);
+    if (!db)
+        db = create_db(fd);
+    return(readline(fd, line, search_db(db, fd)->cut));
 }

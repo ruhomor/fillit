@@ -6,7 +6,7 @@
 #    By: kachiote <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/21 20:18:27 by kachiote          #+#    #+#              #
-#    Updated: 2020/02/22 18:16:25 by sslift           ###   ########.fr        #
+#    Updated: 2020/02/24 18:29:57 by sslift           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ INCL = ./
 
 FLAGS = -Werror -Wall -Wextra
 
-LIB = ./libft
+LIB = ./lib_rus
 
 all: $(NAME)
 
@@ -37,7 +37,7 @@ all: $(NAME)
 
 $(NAME):
 	@make -C $(LIB)
-	@$(CC) $(FLAGS) -o $(NAME) $(SRCS) -I $(INCL) -L. libft/libft.a
+	@$(CC) $(FLAGS) -o $(NAME) $(SRCS) -I $(INCL) -L. lib_rus/libft.a
 
 clean:
 	@rm -f $(OUT)
