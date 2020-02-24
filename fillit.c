@@ -12,7 +12,13 @@
 
 #include "fillit.h"
 
-int ft_mainsearch(t_tetramino *tetra, char **map, int size)
+int	ft_freeline(char *line, int i)
+{
+	free(line);
+	return (i);
+}
+
+int	ft_mainsearch(t_tetramino *tetra, char **map, int size)
 {
 	char *line;
 
@@ -23,10 +29,7 @@ int ft_mainsearch(t_tetramino *tetra, char **map, int size)
 	{
 		tetra->pos++;
 		if (tetra->pos + ft_strlen(line) > ft_strlen(*map))
-		{
-			free(line);
-			return (0);
-		}
+			return (ft_freeline(line, 0));
 		if (ft_check(*map, line, tetra->pos))
 		{
 			ft_fillmap(line, map, tetra->pos);
@@ -35,19 +38,18 @@ int ft_mainsearch(t_tetramino *tetra, char **map, int size)
 				ft_unfillmap(line, map, tetra->pos);
 				tetra->next->pos = -1;
 				continue;
-			} else {
-			    free(line);
-			    return (1);
 			}
+			else
+				return (ft_freeline(line, 1));
 		}
 	}
 }
 
-char *ft_makemap(int size)
+char	*ft_makemap(int size)
 {
-	char *map;
-	int i;
-	int j;
+	char	*map;
+	int		i;
+	int		j;
 
 	i = 0;
 	map = ft_strnew((size + 1) * size + 1);
@@ -65,20 +67,20 @@ char *ft_makemap(int size)
 	return (map);
 }
 
-void    ft_clean_all(t_tetramino *tetra)
+void	ft_clean_all(t_tetramino *tetra)
 {
-    t_tetramino *tmp;
+	t_tetramino *tmp;
 
-    tetra = ft_tetrabase(tetra);
-    while (tetra)
-    {
-        tmp = tetra;
-        tetra = tetra->next;
-        free(tmp);
-    }
+	tetra = ft_tetrabase(tetra);
+	while (tetra)
+	{
+		tmp = tetra;
+		tetra = tetra->next;
+		free(tmp);
+	}
 }
 
-void fillit(int fd)
+void	fillit(int fd)
 {
 	char *line;
 	char *code;
@@ -108,7 +110,8 @@ void fillit(int fd)
 				j++;
 				if (gnl == 0)
 					ft_if_error();
-			} else if (j == 4)
+			}
+			else if (j == 4)
 			{
 				n++;
 				t = code;
@@ -122,7 +125,8 @@ void fillit(int fd)
 					tetra = ft_tetramino(ft_frombistringtointeger(code));
 					free(code);
 					tetra->order = 1;
-				} else
+				}
+				else
 				{
 					tetra->next = ft_tetramino(ft_frombistringtointeger(code));
 					free(code);
@@ -139,11 +143,13 @@ void fillit(int fd)
 					j = 0;
 					if (ft_strcmp(line, "") != 0 || gnl <= 0)
 						ft_if_error();
-				} else
+				}
+				else
 					break ;
 			}
-            free(line);
-		} else if (gnl < 0)
+			free(line);
+		}
+		else if (gnl < 0)
 			ft_if_error();
 	}
 	free(line);
@@ -165,12 +171,11 @@ void fillit(int fd)
 	{
 		map = ft_makemap(size);
 		if (ft_mainsearch(tetra, &map, size))
-			break;
+			break ;
 		tetra->pos = -1;
 		size++;
 		free(map);
 	}
-
 	free(map);
 	map = ft_makemap(size);
 	ft_filloutputmap(tetra, &map, size);

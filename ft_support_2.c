@@ -48,14 +48,13 @@ void	ft_filloutputmap(t_tetramino *tetra, char **map, int size)
 		tetra = tetra->next;
 		free(line);
 	}
-	i = 0;
-	while (i < ft_strlen(*map))
+	i = -1;
+	while (++i < ft_strlen(*map))
 	{
 		if (*(*map + i) == '0')
 			*(*map + i) = '.';
 		else if (*(*map + i) == '1')
 			*(*map + i) = '\n';
-		i++;
 	}
 }
 
